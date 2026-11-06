@@ -1,4 +1,3 @@
-
 package ua.kpi.im42;
 
 public class Calculator {
@@ -13,6 +12,11 @@ public class Calculator {
 
     public static void HandleKeyPress(
             CalculatorState state, String key) {
+
+        if (state.finished) {
+            throw new IllegalStateException(
+                    "No keys allowed after '='");
+        }
 
         if (key.matches("[0-9]")) {
             int digit = Integer.parseInt(key);
@@ -60,6 +64,7 @@ public class Calculator {
             }
 
             state.startSecondNumber = true;
+            state.finished = true;
         }
         else {
             throw new IllegalArgumentException(
